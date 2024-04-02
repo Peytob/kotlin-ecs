@@ -1,18 +1,22 @@
 package dev.peytob.ecs.entity
 
-import java.awt.Component
+import dev.peytob.ecs.component.EcsComponent
 
 interface EcsEntity {
 
     val id: String
 
-    fun getComponents(): Component
+    fun getComponents(): Collection<EcsComponent>
 
-    fun <C : Component> getComponentTypes(): Collection<Class<C>>
+    fun getComponentTypes(): Collection<Class<out EcsComponent>>
 
-    fun <T : Component?> removeComponent(componentType: Class<T>): T
+    fun <T : EcsComponent> getComponent(componentType: Class<T>): T?
 
-    fun bindComponent(component: Component)
+    fun <T : EcsComponent> removeComponent(componentType: Class<T>): T?
+
+    fun <T : EcsComponent> containsComponent(componentType: Class<T>): Boolean
+
+    fun appendComponent(component: EcsComponent)
 
     fun isEmpty(): Boolean
 

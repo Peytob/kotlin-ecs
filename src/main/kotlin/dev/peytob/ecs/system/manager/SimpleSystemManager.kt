@@ -3,7 +3,7 @@ package dev.peytob.ecs.system.manager
 import dev.peytob.ecs.exception.EcsSystemAlreadyExistsException
 import dev.peytob.ecs.system.EcsSystem
 
-class SimpleEcsSystemManager : EcsSystemManager {
+class SimpleSystemManager : SystemManager {
 
     private val systems: MutableCollection<EcsSystem> = mutableListOf()
 

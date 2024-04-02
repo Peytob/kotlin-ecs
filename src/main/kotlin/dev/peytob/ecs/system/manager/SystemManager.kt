@@ -2,7 +2,7 @@ package dev.peytob.ecs.system.manager
 
 import dev.peytob.ecs.system.EcsSystem
 
-interface EcsSystemManager {
+interface SystemManager {
 
     fun getAllSystems(): Collection<EcsSystem>
 

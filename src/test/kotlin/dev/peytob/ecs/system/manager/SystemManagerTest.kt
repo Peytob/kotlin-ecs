@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-abstract class EcsSystemManagerTest : EcsTests() {
+abstract class SystemManagerTest : EcsTests() {
 
-    private lateinit var systemManager: EcsSystemManager
+    private lateinit var systemManager: SystemManager
 
-    abstract fun createInstance(): EcsSystemManager
+    abstract fun createInstance(): SystemManager
 
     @BeforeEach
     fun setUpSystemManagerInstance() {
