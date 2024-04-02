@@ -2,10 +2,10 @@ package dev.peytob.ecs.component.manager
 
 import dev.peytob.ecs.EcsTests
 import dev.peytob.ecs.component.EcsComponent
-import dev.peytob.ecs.component.manager.instance.FirstSingletonComponent
-import dev.peytob.ecs.component.manager.instance.FirstTestComponent
-import dev.peytob.ecs.component.manager.instance.SecondSingletonComponent
-import dev.peytob.ecs.component.manager.instance.SecondTestComponent
+import dev.peytob.ecs.component.instance.FirstSingletonComponent
+import dev.peytob.ecs.component.instance.FirstTestComponent
+import dev.peytob.ecs.component.instance.SecondSingletonComponent
+import dev.peytob.ecs.component.instance.SecondTestComponent
 import dev.peytob.ecs.exception.EcsComponentAlreadyExistsException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 abstract class ComponentManagerTest : EcsTests() {
 
-    lateinit var componentManager: ComponentManager
+    private lateinit var componentManager: ComponentManager
 
     abstract fun createInstance(): ComponentManager
 
@@ -39,8 +39,10 @@ abstract class ComponentManagerTest : EcsTests() {
     @Test
     fun oneComponentSuccessfullyRegistered() {
         val component = FirstTestComponent()
-        val componentClass: Class<FirstTestComponent> = FirstTestComponent::class.java
+        val componentClass = FirstTestComponent::class.java
+
         componentManager.appendComponent(component)
+
         assertElementsEquals(componentManager.getComponentTypes(), setOf(componentClass))
         assertElementsEquals(componentManager.getComponentsByType(componentClass), setOf(component))
     }
