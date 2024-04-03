@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 abstract class EcsContextTest : EcsTests() {
 
-    private lateinit var ecsContext: EcsContext
+    lateinit var ecsContext: EcsContext
 
     abstract fun createInstance(): EcsContext
 
@@ -85,7 +85,7 @@ abstract class EcsContextTest : EcsTests() {
         entity.appendComponent(SecondTestComponent())
         ecsContext.removeEntity(entity)
 
-        assertNotNull(ecsContext.getEntityById(entity.id))
+        assertNull(ecsContext.getEntityById(entity.id))
         assertTrue(ecsContext.getComponentTypes().isEmpty())
     }
 

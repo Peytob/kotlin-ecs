@@ -9,6 +9,7 @@ import dev.peytob.ecs.entity.GenericEcsEntity
 import dev.peytob.ecs.entity.manager.EntityManager
 import dev.peytob.ecs.event.EcsEvent
 import dev.peytob.ecs.event.EventManager
+import dev.peytob.ecs.exception.EcsEntityAlreadyExistsException
 import dev.peytob.ecs.system.EcsSystem
 import dev.peytob.ecs.system.manager.SystemManager
 
@@ -22,7 +23,7 @@ internal class SimpleEcsContext(
 ) : EcsContext {
 
     // TODO Mage separated module
-    private val componentToEntityMap: Map<EcsComponent, EcsEntity> = mutableMapOf()
+    private val componentToEntityMap: MutableMap<EcsComponent, EcsEntity> = mutableMapOf()
 
     override fun createEntity(): EcsEntity {
         val entityId = ecsEntityIdGenerator.generateNextId()
@@ -30,10 +31,16 @@ internal class SimpleEcsContext(
     }
 
     override fun createEntity(id: String): EcsEntity {
+        val existsEntity = entityManager.getEntityById(id)
+
+        if (existsEntity != null) {
+            throw EcsEntityAlreadyExistsException("Entity with id $id already exists in the context", existsEntity)
+        }
+
         val entity = GenericEcsEntity(id)
         val contextEntity = ContextEcsEntity(entity, this)
         entityManager.appendEntity(contextEntity)
-        return entity
+        return contextEntity
     }
 
     override fun removeEntity(entity: EcsEntity) {
@@ -114,9 +121,12 @@ internal class SimpleEcsContext(
 
         override fun <T : EcsComponent> removeComponent(componentType: Class<T>): T? {
             val component = entity.removeComponent(componentType)
+
             if (component != null) {
                 ecsContext.componentManager.removeComponent(component)
+                ecsContext.componentToEntityMap.remove(component)
             }
+
             return component
         }
 
@@ -125,6 +135,7 @@ internal class SimpleEcsContext(
         override fun appendComponent(component: EcsComponent) {
             entity.appendComponent(component)
             ecsContext.componentManager.appendComponent(component)
+            ecsContext.componentToEntityMap[component] = this
         }
 
         override fun isEmpty(): Boolean = entity.isEmpty()
