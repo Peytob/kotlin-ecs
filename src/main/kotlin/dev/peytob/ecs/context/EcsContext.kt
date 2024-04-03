@@ -4,6 +4,7 @@ import dev.peytob.ecs.component.EcsComponent
 import dev.peytob.ecs.component.SingletonEcsComponent
 import dev.peytob.ecs.entity.EcsEntity
 import dev.peytob.ecs.event.EcsEvent
+import dev.peytob.ecs.system.EcsSystem
 
 interface EcsContext {
 
@@ -56,7 +57,7 @@ interface EcsContext {
     /**
      * Returns all systems in the context. The order of systems corresponds to the order of their execution.
      */
-    fun getSystems(): Collection<System>
+    fun getSystems(): Collection<EcsSystem>
 
     /**
      * Adds event to the context. One event can be registered more, that one time.
@@ -71,7 +72,7 @@ interface EcsContext {
     /**
      * Returns all events with given type.
      */
-    fun removeAllEventsByType(ecsEvent: Class<out EcsEvent>)
+    fun removeAllEventsByType(eventType: Class<out EcsEvent>)
 
     /**
      * Returns all types of events in the context.
@@ -86,6 +87,6 @@ interface EcsContext {
     /**
      * Removes given events from context.
      */
-    fun removeEvent(ecsEvent: EcsEvent): Boolean
+    fun removeEvent(ecsEvent: EcsEvent)
 
 }
