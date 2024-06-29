@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.22"
+    id("maven-publish")
 }
 
 group = "dev.peytob.ecs"
@@ -9,6 +10,23 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+}
+
+publishing {
+
+    repositories {
+        mavenLocal()
+    }
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = "kotlin-ecs"
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
 }
 
 dependencies {

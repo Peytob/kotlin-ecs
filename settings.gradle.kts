@@ -1,3 +1,3 @@
 
-rootProject.name = "Kotlin-ecs"
+rootProject.name = "kotlin-ecs"
 
