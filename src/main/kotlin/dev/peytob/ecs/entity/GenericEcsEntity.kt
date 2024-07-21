@@ -19,12 +19,12 @@ internal class GenericEcsEntity(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : EcsComponent> getComponent(componentType: Class<T>): T? {
-        return if (!containsComponent(componentType)) null else components[componentType] as T
+        return if (!containsComponent(componentType)) null else components[componentType] as T?
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : EcsComponent> removeComponent(componentType: Class<T>): T? {
-        return if (!containsComponent(componentType)) null else components.remove(componentType) as T
+        return if (!containsComponent(componentType)) null else components.remove(componentType) as T?
     }
 
     override fun <T : EcsComponent> containsComponent(componentType: Class<T>): Boolean {

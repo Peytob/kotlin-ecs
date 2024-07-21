@@ -40,7 +40,7 @@ class SimpleComponentManager : ComponentManager {
     override fun <T : SingletonEcsComponent> getSingletonComponentByType(componentType: Class<T>): T? {
         return components
             .get(componentType)
-            .firstOrNull() as T
+            .firstOrNull() as T?
     }
 
     override fun getComponentsCount(): Int {

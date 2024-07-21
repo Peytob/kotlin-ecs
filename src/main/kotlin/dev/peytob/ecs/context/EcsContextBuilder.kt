@@ -14,12 +14,12 @@ import dev.peytob.ecs.system.manager.SimpleSystemManager
 import dev.peytob.ecs.system.manager.SystemManager
 
 class EcsContextBuilder(
-    var entityManager: EntityManager? = null,
-    var componentManager: ComponentManager? = null,
-    var systemManager: SystemManager? = null,
-    var eventManager: EventManager? = null,
+    private val entityManager: EntityManager? = null,
+    private val componentManager: ComponentManager? = null,
+    private val systemManager: SystemManager? = null,
+    private val eventManager: EventManager? = null,
 
-    var ecsEntityIdGenerator: EcsEntityIdGenerator? = RandomStringEcsEntityIdGenerator()
+    private val ecsEntityIdGenerator: EcsEntityIdGenerator? = RandomStringEcsEntityIdGenerator()
 ) {
 
     private val entityInitializers = mutableListOf<EntityInitializer>()
@@ -28,6 +28,7 @@ class EcsContextBuilder(
 
     fun appendEntity(customId: String? = null, initializer: (EcsEntity, EcsContext) -> Unit): EcsContextBuilder {
         val entityInitializer = EntityInitializer(customId, initializer)
+        entityInitializers.add(entityInitializer)
         return this
     }
 
