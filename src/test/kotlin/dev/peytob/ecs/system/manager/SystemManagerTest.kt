@@ -3,7 +3,7 @@ package dev.peytob.ecs.system.manager
 import dev.peytob.ecs.EcsTests
 import dev.peytob.ecs.exception.EcsSystemAlreadyExistsException
 import dev.peytob.ecs.system.EcsSystem
-import dev.peytob.ecs.system.instance.TestSystem
+import dev.peytob.ecs.system.instance.TestSystem1
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -84,9 +84,9 @@ abstract class SystemManagerTest : EcsTests() {
 
     @Test
     fun throwsExceptionIfSystemWithSomeClassAlreadyRegistered() {
-        val firstSystem = TestSystem()
-        val secondSystem = TestSystem()
-        val thirdSystem = TestSystem()
+        val firstSystem = TestSystem1()
+        val secondSystem = TestSystem1()
+        val thirdSystem = TestSystem1()
 
         systemManager.appendSystem(firstSystem)
 
