@@ -1,14 +1,15 @@
 package dev.peytob.ecs.component.manager
 
-import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
+import com.google.common.collect.Multimaps
 import dev.peytob.ecs.component.EcsComponent
 import dev.peytob.ecs.component.SingletonEcsComponent
 import dev.peytob.ecs.exception.EcsComponentAlreadyExistsException
+import java.util.concurrent.ConcurrentHashMap
 
 class SimpleComponentManager : ComponentManager {
 
-    private val components: Multimap<Class<out EcsComponent>, EcsComponent> = HashMultimap.create()
+    private val components: Multimap<Class<out EcsComponent>, EcsComponent> = Multimaps.newListMultimap(ConcurrentHashMap(), ::mutableListOf)
 
     override fun appendComponent(ecsComponent: EcsComponent) {
         if (components.containsEntry(ecsComponent.javaClass, ecsComponent)) {

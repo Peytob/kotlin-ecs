@@ -22,9 +22,9 @@ class EcsContextBuilder(
     private val ecsEntityIdGenerator: EcsEntityIdGenerator? = RandomStringEcsEntityIdGenerator()
 ) {
 
-    companion object {
-        const val ORDERLESS_SYSTEMS_START_INDEX = Int.MAX_VALUE / 2
-        const val ORDERLESS_SYSTEMS_STEP = 128
+    private companion object {
+        private const val ORDERLESS_SYSTEMS_START_INDEX = Int.MAX_VALUE / 2
+        private const val ORDERLESS_SYSTEMS_STEP = 128
     }
 
     private val entityInitializers = mutableListOf<EntityInitializer>()

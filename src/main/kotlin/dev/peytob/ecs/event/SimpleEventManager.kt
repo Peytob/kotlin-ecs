@@ -1,11 +1,12 @@
 package dev.peytob.ecs.event
 
-import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
+import com.google.common.collect.Multimaps
+import java.util.concurrent.ConcurrentHashMap
 
 class SimpleEventManager : EventManager {
 
-    private val events: Multimap<Class<out EcsEvent>, EcsEvent> = HashMultimap.create()
+    private val events: Multimap<Class<out EcsEvent>, EcsEvent> = Multimaps.newListMultimap(ConcurrentHashMap(), ::mutableListOf)
 
     override fun appendEvent(event: EcsEvent) {
         events.put(event.javaClass, event)
