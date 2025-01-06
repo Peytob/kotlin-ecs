@@ -1,7 +1,6 @@
 package dev.peytob.ecs.context
 
 import dev.peytob.ecs.EcsTests
-import dev.peytob.ecs.system.EcsSystem
 import dev.peytob.ecs.system.instance.TestSystem1
 import dev.peytob.ecs.system.instance.TestSystem2
 import dev.peytob.ecs.system.instance.TestSystem3
@@ -72,9 +71,5 @@ class EcsContextBuilderTest : EcsTests() {
         assertElementsEquals(
             extractTypes(context.getSystems()),
             listOf(TestSystem1::class.java, TestSystem2::class.java, TestSystem3::class.java))
-    }
-
-    private fun extractTypes(systems: Collection<EcsSystem>): Collection<Class<out EcsSystem>> {
-        return systems.map { it.javaClass }
     }
 }

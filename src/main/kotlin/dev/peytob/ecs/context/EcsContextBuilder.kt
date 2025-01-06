@@ -56,6 +56,11 @@ class EcsContextBuilder(
         return this
     }
 
+    fun beginSequence(order: Int): Sequence {
+        val startInsertingIndex = systems.indexOfLast { it.order < order }
+        return Sequence(startInsertingIndex + 1)
+    }
+
     fun appendSystemAfter(system: EcsSystem, ecsSystem: EcsSystem): EcsContextBuilder {
         return appendSystemAfter(system, ecsSystem.javaClass)
     }
@@ -71,6 +76,22 @@ class EcsContextBuilder(
         systems.add(targetSystemIndex + 1, OrderedSystem(system, appendedSystemOrder))
 
         return this
+    }
+
+    fun beginSequenceAfter(ecsSystem: EcsSystem): Sequence {
+        return beginSequenceAfter(ecsSystem::class.java)
+    }
+
+    fun beginSequenceAfter(ecsSystemType: Class<out EcsSystem>): Sequence {
+        val targetSystemIndex = systems.indexOfLast { ecsSystemType.isInstance(it.system) }
+
+        if (targetSystemIndex < 0) {
+            throw systemNotFound(ecsSystemType)
+        }
+
+        val startInsertingIndex = systems[targetSystemIndex].order + 1
+
+        return Sequence(startInsertingIndex)
     }
 
     fun appendSystemBefore(system: EcsSystem, ecsSystem: EcsSystem): EcsContextBuilder {
@@ -90,6 +111,22 @@ class EcsContextBuilder(
         systems.add(appendingSystemIndex, OrderedSystem(system, appendedSystemOrder))
 
         return this
+    }
+
+    fun beginSequenceBefore(ecsSystem: EcsSystem): Sequence {
+        return beginSequenceBefore(ecsSystem::class.java)
+    }
+
+    fun beginSequenceBefore(ecsSystemType: Class<out EcsSystem>): Sequence {
+        val targetSystemIndex = systems.indexOfLast { ecsSystemType.isInstance(it.system) }
+
+        if (targetSystemIndex < 0) {
+            throw systemNotFound(ecsSystemType)
+        }
+
+        val startInsertingIndex = systems[targetSystemIndex].order - 1
+
+        return Sequence(startInsertingIndex)
     }
 
     fun build(): EcsContext {
@@ -129,4 +166,19 @@ class EcsContextBuilder(
         val system: EcsSystem,
         val order: Int
     )
+
+    inner class Sequence(
+        private var currentInsertIndex: Int
+    ) {
+
+        fun next(ecsSystem: EcsSystem): Sequence {
+            this@EcsContextBuilder.appendSystem(ecsSystem, currentInsertIndex)
+            currentInsertIndex += 1
+            return this
+        }
+
+        fun endSequence(): EcsContextBuilder {
+            return this@EcsContextBuilder
+        }
+    }
 }

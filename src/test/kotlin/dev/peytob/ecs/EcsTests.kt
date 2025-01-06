@@ -9,4 +9,8 @@ open class EcsTests {
         assertEquals(expected.size, actual.size)
         assertTrue(expected.containsAll(actual))
     }
+
+    protected open fun <E : Any> extractTypes(collection: Collection<E>): Collection<Class<out E>> {
+        return collection.map { it.javaClass }
+    }
 }
