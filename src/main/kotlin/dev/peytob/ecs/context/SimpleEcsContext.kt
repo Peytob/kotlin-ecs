@@ -106,6 +106,10 @@ internal class SimpleEcsContext(
         eventManager.removeEvent(ecsEvent)
     }
 
+    override fun containsEventByType(eventType: Class<out EcsEvent>): Boolean {
+        return eventManager.getEventsByType(eventType).isNotEmpty()
+    }
+
     private class ContextEcsEntity(
         private val entity: EcsEntity,
         private val ecsContext: SimpleEcsContext

@@ -89,4 +89,8 @@ interface EcsContext {
      */
     fun removeEvent(ecsEvent: EcsEvent)
 
+    /**
+     * Returns true if context contains at least one event with given type
+     */
+    fun containsEventByType(eventType: Class<out EcsEvent>): Boolean
 }
